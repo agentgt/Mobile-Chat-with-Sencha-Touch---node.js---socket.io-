@@ -14,8 +14,8 @@ App.util.Socketio = Ext.extend(Ext.util.Observable, {
 		App.util.Socketio.superclass.constructor.call(
 			this
 		);
-
-		this.socket = new io.Socket(host, options);
+		//this.socket = io.connect(host, options);
+		this.socket = io.connect();
 		var that = this;
 
 		this.socket.on('connect', function(){
@@ -37,7 +37,7 @@ App.util.Socketio = Ext.extend(Ext.util.Observable, {
 	 * connect
 	 */
 	connect: function() {
-		this.socket.connect();
+		//this.socket.connect();
 	},
 
 	disconnect: function(){
@@ -45,7 +45,10 @@ App.util.Socketio = Ext.extend(Ext.util.Observable, {
 	},
 
 	send: function(message) {
-		this.socket.send(message);
+		if (typeof message == "string")
+			this.socket.send(message);
+		else
+			this.socket.json.send(message);
 	},
 
 	onConnect: function() {
